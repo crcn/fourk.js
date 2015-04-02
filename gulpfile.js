@@ -1,6 +1,5 @@
 var gulp                  = require("gulp");
 var istanbul              = require("gulp-istanbul");
-var react                 = require("gulp-react");
 var mocha                 = require("gulp-mocha");
 var plumber               = require("gulp-plumber");
 var jshint                = require("gulp-jshint");
@@ -12,11 +11,9 @@ var jscs                  = require("gulp-jscs");
 var jshint                = require("gulp-jshint");
 var rename                = require("gulp-rename");
 var coveralls             = require("gulp-coveralls");
-var less                  = require("gulp-less");
 var concat                = require("gulp-concat");
 var karma                 = require("karma").server;
 var options               = require("yargs").argv;
-var browserSync           = require("browser-sync");
 
 /**
  */
@@ -26,9 +23,7 @@ var paths = {
   appFiles  : ["lib/**/*.js"],
   allFiles  : ["test/**", "lib/**", "examples/!(_static)/**"],
   watchFiles  : ["test/**", "lib/**"],
-  lessFiles : ["examples/**/*.less"],
   lintFiles : ["test/**", "lib/**"],
-  bsyncFiles  : ["coverage/**/*", "examples/_static/**"]
 };
 
 /**
@@ -62,7 +57,7 @@ gulp.task("test-coverage", function (complete) {
 
 /**
  */
- 
+
 gulp.task("test-coveralls", ["test-coverage"], function () {
   return gulp.
   src("coverage/**/lcov.info").
@@ -82,13 +77,13 @@ gulp.task("bundle", function() {
 
 /**
  */
- 
+
 gulp.task("minify", ["bundle"], function() {
   return gulp.
   src("./dist/caplet.js").
   pipe(uglify()).
   pipe(rename(function(path) {
-      path.basename += ".min"; 
+      path.basename += ".min";
   })).
   pipe(gulp.dest('./dist'));
 });
@@ -98,8 +93,7 @@ gulp.task("minify", ["bundle"], function() {
 
 gulp.task("test-browser", function(complete) {
   karma.start({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
+    configFile: __dirname + '/karma.conf.js'
   }, complete);
 });
 
@@ -153,22 +147,9 @@ gulp.task("jshint", function() {
 });
 
 /**
- * IMPORTANT: run this command AFTER watch - e.g: gulp test-coverage watch browser-sync
  */
 
-gulp.task("browser-sync", function(complete) {
-  browserSync({
-    server: {
-      baseDir: "./"
-    },
-    files: paths.bsyncFiles
-  })
-});
-
-/**
- */
-
-gulp.task("test", function (complete) { 
+gulp.task("test", function (complete) {
   gulp.
   src(paths.testFiles, { read: false }).
   pipe(plumber()).

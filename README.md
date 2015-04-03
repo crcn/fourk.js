@@ -15,6 +15,10 @@ if (cluster.isMaster) {
 }
 ```
 
+#### Other Examples
+
+- [in-memory db in a web worker](https://github.com/mojo-js/crudlet.js/tree/master/examples/web-workers)
+
 #### Boolean cluster.isMaster
 
 true if the current script is master

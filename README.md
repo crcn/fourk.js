@@ -1,7 +1,7 @@
 Fourk allows you to spawn your web app on multiple threads. Similar to [cluster](https://nodejs.org/api/cluster.html).
 Fourk works by taking the script it's executed from & re-spawning it as a [web worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers).
 
-#### Example
+#### Browserify Example
 
 ```javascript
 var cluster = require("fourk")();

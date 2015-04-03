@@ -1,4 +1,4 @@
-var clust = require("..");
+var clust = require("..")();
 
 if (clust.isWorker) {
   clust.on("ping", function(event) {

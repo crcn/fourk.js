@@ -70,7 +70,7 @@ gulp.task("test-coveralls", ["test-coverage"], function () {
 gulp.task("bundle", function() {
   return browserify("./lib/index.js").
   bundle().
-  pipe(source('caplet.js')).
+  pipe(source('fourk.js')).
   pipe(buffer()).
   pipe(gulp.dest('./dist'));
 });
@@ -80,7 +80,7 @@ gulp.task("bundle", function() {
 
 gulp.task("minify", ["bundle"], function() {
   return gulp.
-  src("./dist/caplet.js").
+  src("./dist/fourk.js").
   pipe(uglify()).
   pipe(rename(function(path) {
       path.basename += ".min";

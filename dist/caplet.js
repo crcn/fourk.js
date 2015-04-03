@@ -1,13 +1,19 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var clust = require("..");
+var child  = require("./child");
+var master = require("./master");
 
-if (clust.isWorker) {
-  clust.on("ping", function(event) {
-    clust.emit.apply(clust, Array.prototype.slice.apply(arguments));
-  });
+var isWorker = typeof window === "undefined";
+
+module.exports = function(script) {
+  return !isWorker ? require("./master")(script || getAppScript()) : require("./child")(self);
 }
 
-},{"..":3}],2:[function(require,module,exports){
+function getAppScript() {
+  var scripts   = document.getElementsByTagName("script");
+  return scripts[scripts.length - 1].src;
+}
+
+},{"./child":2,"./master":3}],2:[function(require,module,exports){
 var extend       = require("xtend/mutable");
 var EventEmitter = require("events").EventEmitter;
 
@@ -84,22 +90,7 @@ module.exports = function(target) {
   return new Child(target);
 };
 
-},{"events":5,"xtend/mutable":6}],3:[function(require,module,exports){
-var child  = require("./child");
-var master = require("./master");
-
-var isWorker = typeof window === "undefined";
-
-module.exports = function(script) {
-  return !isWorker ? require("./master")(script || getAppScript()) : require("./child")(self);
-}
-
-function getAppScript() {
-  var scripts   = document.getElementsByTagName("script");
-  return scripts[scripts.length - 1].src;
-}
-
-},{"./child":2,"./master":4}],4:[function(require,module,exports){
+},{"events":4,"xtend/mutable":5}],3:[function(require,module,exports){
 var extend       = require("xtend/mutable");
 var EventEmitter = require("events").EventEmitter;
 var child        = require("./child");
@@ -178,7 +169,7 @@ module.exports = function(script) {
   return new Master(script);
 }
 
-},{"./child":2,"events":5,"xtend/mutable":6}],5:[function(require,module,exports){
+},{"./child":2,"events":4,"xtend/mutable":5}],4:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -481,7 +472,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = extend
 
 function extend(target) {

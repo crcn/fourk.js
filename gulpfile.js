@@ -91,6 +91,17 @@ gulp.task("minify", ["bundle"], function() {
 /**
  */
 
+ gulp.task("test-script", function(complete) {
+   return browserify("./test/script-test.js").
+   bundle().
+   pipe(source("script.bundle.js")).
+   pipe(buffer()).
+   pipe(gulp.dest("./test"));
+ });
+
+/**
+ */
+
 gulp.task("test-browser", function(complete) {
   karma.start({
     configFile: __dirname + '/karma.conf.js'

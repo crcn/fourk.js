@@ -7,18 +7,40 @@ Fourk works by taking the script it's executed from & re-spawning it as a [web w
 var cluster = require("fourk");
 
 if (cluster.isMaster) {
-
-  function createWorker() {
-    var worker = cluster.fork();
-    worker.on("hello", function() {
-    });
-  }
-  for (var i = 4; i--;) createWorker();
-  cluster.on("exit", createWorker);
+  for (var i = 4; i--;) cluster.fork()
 } else {
-  cluster.worker.emit("hello");
+  // do stuff as worker
 }
 ```
 
 #### Boolean cluster.isMaster
+
+true if the current script is master
+
 #### Boolean cluster.isWorker
+
+true if the current script is a worker
+
+#### worker master.fork()
+
+creates a new child process
+
+#### worker.close()
+
+terminates the worker
+
+#### cluster.broadcast(event[, ...args])
+
+broadcasts a message to all workers
+
+#### cluster.emit(event[, ...args])
+
+Broadcasts a message to one worker. If the worker is emitting an event, it gets sent to master
+
+#### cluster.on(event[, handler])
+
+message handler
+
+#### cluster.once(event[, handler])
+
+adds one listener

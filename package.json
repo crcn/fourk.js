@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/crcn/crudlet.js",
   "devDependencies": {
+    "async": "^0.9.0",
     "browserify": "^9.0.3",
     "expect.js": "^0.3.1",
     "gulp": "^3.8.11",
